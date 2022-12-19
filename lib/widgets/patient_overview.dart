@@ -226,7 +226,8 @@ class _DayTextButton extends StatelessWidget {
                 BorderSide(color: Colors.black, width: layout.borderWidth / 4),
           ),
           onPressed: onPressed,
-          child: Text(text, style: const TextStyle(color: Colors.black)),
+          child:
+              AutoSizeText(text, style: const TextStyle(color: Colors.black)),
         ));
   }
 }
@@ -280,7 +281,7 @@ class _MoodSection extends StatelessWidget {
       MoodDataLevel mood) {
     return Column(
       children: [
-        Text(category, style: Theme.of(context).textTheme.titleSmall),
+        AutoSizeText(category, style: Theme.of(context).textTheme.titleSmall),
         const SizedBox(height: 3),
         if (mood != MoodDataLevel.none)
           Image.asset(

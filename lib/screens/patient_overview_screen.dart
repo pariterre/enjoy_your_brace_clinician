@@ -50,6 +50,10 @@ class PatientOverviewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final windowWidth = MediaQuery.of(context).size.width;
+    final width = windowWidth >= 600 ? 200.0 : windowWidth / 3;
+    final height = width * 3 / 2;
+
     return Scaffold(
       body: Center(
           child: ListView.builder(
@@ -60,18 +64,18 @@ class PatientOverviewScreen extends StatelessWidget {
               children: [
                 PatientOverview(
                   _generateData(-0.5),
-                  width: 200,
-                  height: 300,
+                  width: width,
+                  height: height,
                 ),
                 PatientOverview(
                   _generateData(0),
-                  width: 200,
-                  height: 300,
+                  width: width,
+                  height: height,
                 ),
                 PatientOverview(
                   _generateData(0.5),
-                  width: 200,
-                  height: 300,
+                  width: width,
+                  height: height,
                 ),
               ],
             ),
