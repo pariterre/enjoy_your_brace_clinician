@@ -1,8 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
-import '/models/data_list.dart';
+import '../models/enums.dart';
 import '/models/patient.dart';
+import '/models/wearing_time_list.dart';
 
 class _BackgroundColors {
   final Color extraLight;
@@ -12,13 +13,13 @@ class _BackgroundColors {
   const _BackgroundColors(
       {required this.extraLight, required this.light, required this.dark});
 
-  factory _BackgroundColors.choseFromData(DataList data) {
-    if (data.meanWearingTimePerDay < DataList.expectedMeanWearingTime / 2) {
+  factory _BackgroundColors.choseFromData(WearingTimeList data) {
+    if (data.meanWearingTimePerDay < ExpectedWearingTime.bad.id) {
       return _BackgroundColors(
           extraLight: const Color.fromARGB(255, 255, 187, 194),
           light: Colors.red[200]!,
           dark: Colors.red);
-    } else if (data.meanWearingTimePerDay < DataList.expectedMeanWearingTime) {
+    } else if (data.meanWearingTimePerDay < ExpectedWearingTime.good.id) {
       return _BackgroundColors(
           extraLight: Colors.orange[100]!,
           light: Colors.orange[200]!,
@@ -60,25 +61,25 @@ class PatientOverview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = _BackgroundColors.choseFromData(patient.data);
+    final colors = _BackgroundColors.choseFromData(patient.wearingData);
 
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         _Header(patient, layout: _layout, colors: colors),
-        _MeanTimeShow(patient.data, layout: _layout, colors: colors),
-        // Container(
-        //   height: _layout.height * 4 / 6,
-        //   width: _layout.width,
-        //   decoration: BoxDecoration(
-        //     borderRadius: BorderRadius.only(
-        //       bottomLeft: Radius.circular(_layout.cornerRadius),
-        //       bottomRight: Radius.circular(_layout.cornerRadius),
-        //     ),
-        //     color: colors.light,
-        //   ),
-        //   child: const Center(child: Text('coucou')),
-        // ),
+        _MeanTimeShow(patient.wearingData, layout: _layout, colors: colors),
+        Container(
+          height: _layout.height * 4 / 6,
+          width: _layout.width,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(_layout.cornerRadius),
+              bottomRight: Radius.circular(_layout.cornerRadius),
+            ),
+            color: colors.light,
+          ),
+          child: const Center(child: Text('coucou')),
+        ),
       ],
     );
   }
@@ -87,7 +88,7 @@ class PatientOverview extends StatelessWidget {
 class _MeanTimeShow extends StatefulWidget {
   const _MeanTimeShow(this.data, {required this.layout, required this.colors});
 
-  final DataList data;
+  final WearingTimeList data;
   final _Layout layout;
   final _BackgroundColors colors;
 

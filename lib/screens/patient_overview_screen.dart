@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 import '/models/patient.dart';
-import '/models/temperature_data_point.dart';
+import '/models/wearing_time.dart';
 import '/widgets/patient_overview.dart';
 
 Patient _generateData(offset) {
@@ -12,8 +12,13 @@ Patient _generateData(offset) {
   const max = 51;
   final rand = Random();
   for (int i = 0; i < max; i++) {
-    patient.data.add(TemperatureDataPoint(rand.nextDouble() * 5 + offset,
-        date: DateTime.now().subtract(Duration(minutes: 30 * (max - i)))));
+    patient.wearingData.add(
+      WearingTime(
+        DateTime.now().subtract(Duration(minutes: 30 * (max - i))),
+        Duration(
+            minutes: rand.nextDouble() + offset > 0.5 && i != max - 1 ? 30 : 0),
+      ),
+    );
   }
   return patient;
 }
@@ -34,17 +39,17 @@ class PatientOverviewScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 PatientOverview(
-                  _generateData(rand.nextDouble() * 5 + 20),
+                  _generateData(-0.5),
                   width: 200,
                   height: 300,
                 ),
                 PatientOverview(
-                  _generateData(rand.nextDouble() * 5 + 20),
+                  _generateData(0),
                   width: 200,
                   height: 300,
                 ),
                 PatientOverview(
-                  _generateData(rand.nextDouble() * 5 + 20),
+                  _generateData(0.5),
                   width: 200,
                   height: 300,
                 ),
