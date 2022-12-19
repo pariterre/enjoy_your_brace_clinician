@@ -1,22 +1,44 @@
 import 'dart:math';
 
+import 'package:enjoy_your_brace_clinician/models/enums.dart';
 import 'package:flutter/material.dart';
 
+import '/models/mood.dart';
 import '/models/patient.dart';
 import '/models/wearing_time.dart';
 import '/widgets/patient_overview.dart';
 
-Patient _generateData(offset) {
+Patient _generateData(durationOffset) {
   final patient =
       Patient('Robert G Sauvé Larivière Joyal Tremblay Noël Beauchamps Girard');
-  const max = 51;
+  const nbWearingDataPoints = 51;
+  const nbMoodDataPoints = 3;
   final rand = Random();
-  for (int i = 0; i < max; i++) {
+
+  // Add some wearing data points
+  for (int i = 0; i < nbWearingDataPoints; i++) {
     patient.wearingData.add(
       WearingTime(
-        DateTime.now().subtract(Duration(minutes: 30 * (max - i))),
+        DateTime.now()
+            .subtract(Duration(minutes: 30 * (nbWearingDataPoints - i))),
         Duration(
-            minutes: rand.nextDouble() + offset > 0.5 && i != max - 1 ? 30 : 0),
+            minutes: rand.nextDouble() + durationOffset > 0.5 &&
+                    i != nbWearingDataPoints - 1
+                ? 30
+                : 0),
+      ),
+    );
+  }
+
+  // Add some mood data points
+  for (int i = 0; i < nbMoodDataPoints; i++) {
+    patient.moodData.add(
+      Mood(
+        DateTime.now().subtract(Duration(days: nbMoodDataPoints - i - 1)),
+        emotion: MoodDataLevelPath.fromDouble(rand.nextInt(5) + 1),
+        comfort: MoodDataLevelPath.fromDouble(rand.nextInt(5) + 1),
+        humidity: MoodDataLevelPath.fromDouble(rand.nextInt(5) + 1),
+        autonomy: MoodDataLevelPath.fromDouble(rand.nextInt(5) + 1),
       ),
     );
   }
@@ -28,8 +50,6 @@ class PatientOverviewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final rand = Random();
-
     return Scaffold(
       body: Center(
           child: ListView.builder(
