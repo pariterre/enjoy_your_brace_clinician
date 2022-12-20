@@ -11,12 +11,16 @@ dependencies:
   flutter:
     sdk: flutter
   enhanced_containers: ^0.1.0
+  ezlogin: ^1.0.0
   auto_size_text: ^3.0.0
   cupertino_icons: ^1.0.2
+  provider: ^6.0.5
 
 dependency_overrides:
   enhanced_containers:
     path: ./external/enhanced_containers
+  ezlogin:
+    path: ./external/ezlogin
 
 dev_dependencies:
   flutter_test:

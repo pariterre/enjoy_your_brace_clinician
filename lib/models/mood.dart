@@ -1,7 +1,7 @@
 import 'package:enhanced_containers/enhanced_containers.dart';
 
 import '/models/enums.dart';
-import '/models/mood_list.dart';
+import 'mood_list.dart';
 
 class Mood extends ItemSerializable {
   /// This method is the clinician side of [MoodDataPoint] of patient side

@@ -1,12 +1,14 @@
 import 'dart:math';
 
-import 'package:enjoy_your_brace_clinician/models/enums.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '/models/enums.dart';
 import '/models/mood.dart';
 import '/models/patient.dart';
 import '/models/wearing_time.dart';
 import '/widgets/patient_overview.dart';
+import '/ezlogin_mock.dart';
 
 Patient _generateData(durationOffset) {
   final patient =
@@ -48,11 +50,15 @@ Patient _generateData(durationOffset) {
 class PatientOverviewScreen extends StatelessWidget {
   const PatientOverviewScreen({super.key});
 
+  static String routeName = '/patient-overview-screen';
+
   @override
   Widget build(BuildContext context) {
     final windowWidth = MediaQuery.of(context).size.width;
     final width = windowWidth >= 600 ? 200.0 : windowWidth / 3;
     final height = width * 3 / 2;
+
+    final logger = Provider.of<EzloginMock>(context, listen: false);
 
     return Scaffold(
       body: Center(
@@ -62,6 +68,7 @@ class PatientOverviewScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
+                Text(logger.currentUser!.notes.toString()),
                 PatientOverview(
                   _generateData(-0.5),
                   width: width,
