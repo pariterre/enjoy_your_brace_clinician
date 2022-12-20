@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:ezlogin/ezlogin.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -59,6 +60,12 @@ class PatientOverviewScreen extends StatelessWidget {
     final height = width * 3 / 2;
 
     final logger = Provider.of<EzloginMock>(context, listen: false);
+    if (logger.currentUser!.userType != EzloginUserType.superUser) {
+      return const Scaffold(
+        body: Center(
+            child: Text('You are not a licensed user.\nThis will be reported')),
+      );
+    }
 
     return Scaffold(
       body: Center(
@@ -68,7 +75,6 @@ class PatientOverviewScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text(logger.currentUser!.notes.toString()),
                 PatientOverview(
                   _generateData(-0.5),
                   width: width,
